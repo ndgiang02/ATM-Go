@@ -1,4 +1,4 @@
-import 'package:atmgo/core/routes/app_router.dart';
+import 'package:atmgo/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'ATM Finder',
+      title: 'ATM Go',
       routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
