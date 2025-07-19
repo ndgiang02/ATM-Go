@@ -1,9 +1,11 @@
+import 'package:atmgo/core/common/asset/app_assets.dart';
 import 'package:atmgo/core/common/widget/widget_loading.dart';
-import 'package:atmgo/core/constant/constants.dart';
+import 'package:atmgo/core/response/status.dart';
 import 'package:atmgo/core/utils/responsive.dart';
 import 'package:atmgo/features/home/view_model/home_viewmodel.dart';
-import 'package:atmgo/features/home/widget/location_card.dart';
+import 'package:atmgo/features/home/widget/location_item.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            context.go('/list');
+                          },
                           child: Container(
                             width: double.infinity,
                             height: 150,
@@ -71,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Image.asset(
-                              iconAtm,
+                              AppAssets.iconAtm,
                               height: Responsive.height(12, context),
                               fit: BoxFit.contain,
                             ),
@@ -91,7 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            context.go('/list');
+                          },
                           child: Container(
                             height: 150,
                             width: double.infinity,
@@ -103,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Image.asset(
-                              iconAtm,
+                              AppAssets.iconAtm,
                               height: Responsive.height(12, context),
                               fit: BoxFit.contain,
                             ),
@@ -128,63 +134,71 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 14),
+
               Expanded(
                 child:
-                    viewModel.isLoading
+                    viewModel.locationsResponse.status == Status.LOADING
                         ? const Center(child: LoadingWidget())
-                        : viewModel.errorMessage != null
+                        : viewModel.locationsResponse.status == Status.ERROR
                         ? Center(
                           child: Text(
-                            viewModel.errorMessage!,
+                            viewModel.locationsResponse.message ??
+                                'Lỗi tải dữ liệu',
                             style: const TextStyle(color: Colors.red),
                           ),
                         )
-                        : viewModel.locations.isEmpty
-                        ? const Center(child: Text('No banks found nearby'))
-                        : ListView.builder(
-                          itemCount: viewModel.locations.length,
-                          itemBuilder: (context, index) {
-                            final location = viewModel.locations[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: LocationCard(
-                                title: location.title ?? 'N/A',
-                                address: location.address ?? 'N/A',
-                                status: 'Open 24 Hours',
-                                distance:
-                                    '${location.distance?.toStringAsFixed(2) ?? 'N/A'} Km',
-                                logoUrl: location.logo,
-                                onCall: () async {
-                                  final phone = location.phone?.replaceAll(
-                                    ' ',
-                                    '',
-                                  );
-                                  final Uri launchUri = Uri(
-                                    scheme: 'tel',
-                                    path: phone,
-                                  );
-                                  if (await canLaunchUrl(launchUri)) {
-                                    await launchUrl(launchUri);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Cannot make a phone call',
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                onDirection: () {
-                                  // TODO: Implement direction functionality
-                                },
-                                onShare: () {
-                                  // TODO: Implement share functionality
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                        : viewModel.locationsResponse.status == Status.COMPLETED
+                        ? (viewModel.locationsResponse.data?.isEmpty ?? true)
+                            ? const Center(child: Text('No banks found nearby'))
+                            : ListView.builder(
+                              itemCount:
+                                  viewModel.locationsResponse.data!.length,
+                              itemBuilder: (context, index) {
+                                final location =
+                                    viewModel.locationsResponse.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: LocationCard(
+                                    title: location.title ?? 'N/A',
+                                    address: location.address ?? 'N/A',
+                                    status: 'Open 24 Hours',
+                                    distance:
+                                        '${location.distance?.toStringAsFixed(2) ?? 'N/A'} Km',
+                                    logoUrl: location.logo,
+                                    onCall: () async {
+                                      final phone = location.phone?.replaceAll(
+                                        ' ',
+                                        '',
+                                      );
+                                      final Uri launchUri = Uri(
+                                        scheme: 'tel',
+                                        path: phone,
+                                      );
+                                      if (await canLaunchUrl(launchUri)) {
+                                        await launchUrl(launchUri);
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Cannot make a phone call',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    onDirection: () {
+                                      // TODO: Implement direction functionality
+                                    },
+                                    onShare: () {
+                                      // TODO: Implement share functionality
+                                    },
+                                  ),
+                                );
+                              },
+                            )
+                        : const SizedBox.shrink(),
               ),
             ],
           ),

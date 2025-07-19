@@ -1,134 +1,178 @@
-import 'package:atmgo/core/common/widget/toggle_button.dart';
+import 'package:atmgo/core/common/widget/widget_loading.dart';
+import 'package:atmgo/core/response/status.dart';
+import 'package:atmgo/core/utils/ultils.dart';
+import 'package:atmgo/di/locator.dart';
+import 'package:atmgo/features/map/map/map_viewmodel.dart';
+import 'package:atmgo/features/map/widget/dropdown_widget.dart';
+import 'package:atmgo/features/map/widget/item_widget.dart';
 import 'package:atmgo/features/map/widget/locaton_button.dart';
 import 'package:atmgo/features/map/widget/zoom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-  MapboxMap? _mapboxMap;
-  final geo.GeolocatorPlatform _geolocatorPlatform =
-      geo.GeolocatorPlatform.instance;
-
-  bool isEnabled = false;
-  void _onMapCreated(MapboxMap mapboxMap) {
-    _mapboxMap = mapboxMap;
-  }
-
-  Future<void> _zoomIn() async {
-    final camera = await _mapboxMap?.getCameraState();
-    if (camera != null) {
-      _mapboxMap?.setCamera(CameraOptions(zoom: camera.zoom + 1));
-    }
-  }
-
-  Future<void> _zoomOut() async {
-    final camera = await _mapboxMap?.getCameraState();
-    if (camera != null) {
-      _mapboxMap?.setCamera(CameraOptions(zoom: camera.zoom - 1));
-    }
-  }
-
-  Future<void> _getCurrentPosition() async {
-    final hasPermission = await _handlePermission();
-
-    if (!hasPermission) {
-      return;
-    }
-
-    final currentGeoPosition = await _geolocatorPlatform.getCurrentPosition();
-    _mapboxMap?.setCamera(
-      CameraOptions(
-        center: Point(
-          coordinates: Position(
-            currentGeoPosition.longitude,
-            currentGeoPosition.latitude,
-          ),
-        ),
-        zoom: 14.0,
-      ),
-    );
-  }
-
-  Future<bool> _handlePermission() async {
-    bool serviceEnabled;
-    geo.LocationPermission permission;
-
-    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return false;
-    }
-
-    permission = await _geolocatorPlatform.checkPermission();
-    if (permission == geo.LocationPermission.denied) {
-      permission = await _geolocatorPlatform.requestPermission();
-      if (permission == geo.LocationPermission.denied) {
-        return false;
-      }
-    }
-
-    if (permission == geo.LocationPermission.deniedForever) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: MapWidget(
-              key: const ValueKey("mapWidget"),
-              mapOptions: MapOptions(
-                pixelRatio: MediaQuery.of(context).devicePixelRatio,
-              ),
-              cameraOptions: CameraOptions(
-                center: Point(coordinates: Position(105.8542, 21.0285)),
-                bearing: 0.0,
-                zoom: 13.0,
-                pitch: 0.0,
-              ),
-              styleUri: MapboxStyles.STANDARD,
-              textureView: true,
-              onMapCreated: _onMapCreated,
-            ),
-          ),
-          Positioned(
-            bottom: 100,
-            right: 10,
-            child: Column(
+    return ChangeNotifierProvider(
+      create: (_) => locator<MapViewModel>(),
+      child: Consumer<MapViewModel>(
+        builder: (context, viewModel, _) {
+          return Scaffold(
+            body: Stack(
               children: [
-                ZoomButton(onZoomIn: _zoomIn, onZoomOut: _zoomOut),
-                const SizedBox(height: 10),
-                LocationButton(onPressed: _getCurrentPosition),
+                Positioned.fill(
+                  child: MapWidget(
+                    key: const ValueKey("mapWidget"),
+                    mapOptions: MapOptions(
+                      pixelRatio: MediaQuery.of(context).devicePixelRatio,
+                    ),
+                    cameraOptions: CameraOptions(
+                      center: Point(coordinates: Position(105.8542, 21.0285)),
+                      zoom: 13.0,
+                    ),
+                    styleUri: MapboxStyles.STANDARD,
+                    textureView: true,
+                    onMapCreated: viewModel.setMap,
+                    onMapLoadedListener: (_) {
+                      viewModel.fetchMarkersFromApi(context);
+                      viewModel.getAllBanks();
+                    },
+                  ),
+                ),
+
+                Positioned(
+                  top: 60,
+                  left: 16,
+                  right: 16,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Builder(
+                              builder: (context) {
+                                List<DropdownMenuItem<String>> dropdownItems =
+                                    [];
+
+                                if (viewModel.banksResponse.status ==
+                                    Status.LOADING) {
+                                  dropdownItems = const [
+                                    DropdownMenuItem<String>(
+                                      value: null,
+                                      child: LoadingWidget(),
+                                    ),
+                                  ];
+                                } else if (viewModel.banksResponse.status ==
+                                    Status.ERROR) {
+                                  dropdownItems = [
+                                    DropdownMenuItem<String>(
+                                      value: null,
+                                      child: Text(
+                                        viewModel.banksResponse.message ??
+                                            'Lỗi tải ngân hàng',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ];
+                                } else if (viewModel.banksResponse.status ==
+                                    Status.COMPLETED) {
+                                  final banks = viewModel.banksResponse.data!;
+                                  dropdownItems = [
+                                    const DropdownMenuItem<String>(
+                                      value: 'all',
+                                      child: Text('Tất cả ngân hàng'),
+                                    ),
+                                    ...banks.map((bank) {
+                                      return DropdownMenuItem<String>(
+                                        value: bank.code,
+                                        child: Item(
+                                          name: bank.name,
+                                          logoUrl: bank.logo_url,
+                                        ),
+                                      );
+                                    }),
+                                  ];
+                                }
+
+                                return CustomDropdown<String>(
+                                  value: viewModel.selectedBank,
+                                  hint: 'Chọn ngân hàng',
+                                  items: dropdownItems,
+                                  onChanged:
+                                      viewModel.banksResponse.status ==
+                                              Status.COMPLETED
+                                          ? viewModel.onBankSelected
+                                          : null,
+                                );
+                              },
+                            ),
+                          ),
+
+                          const SizedBox(width: 8),
+
+                          Expanded(
+                            child: CustomDropdown<String>(
+                              value: viewModel.selectedServiceType,
+                              hint: 'Loại dịch vụ',
+                              items:
+                                  Utils.serviceTypes.map((serviceType) {
+                                    return DropdownMenuItem<String>(
+                                      value: serviceType['id'],
+                                      child: Text(serviceType['title'] ?? ''),
+                                    );
+                                  }).toList(),
+                              onChanged: viewModel.onServiceTypeSelected,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      if (viewModel.selectedBank != 'all' ||
+                          viewModel.selectedServiceType != 'all')
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton.icon(
+                            onPressed: viewModel.resetFilters,
+                            icon: const Icon(Icons.clear, size: 16),
+                            label: const Text('Đặt lại'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.red,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 100,
+                  right: 10,
+                  child: Column(
+                    children: [
+                      ZoomButton(
+                        onZoomIn: viewModel.zoomIn,
+                        onZoomOut: viewModel.zoomOut,
+                      ),
+                      const SizedBox(height: 10),
+                      LocationButton(onPressed: viewModel.getCurrentLocation),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-
-          Positioned(
-            bottom: 100,
-            right: 10,
-            child: ToggleButton(
-              value: isEnabled,
-              onChanged: (val) {
-                setState(() {
-                  isEnabled = val;
-                });
-              },
-              activeColor: Colors.green,
-              inactiveColor: Colors.grey[300]!,
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

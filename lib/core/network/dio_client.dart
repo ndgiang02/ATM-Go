@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:atmgo/core/constant/constants.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
@@ -10,7 +11,7 @@ class DioClient {
   DioClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://localhost:8000/api/',
+        baseUrl: '${AppConstants.BASE_URL}/api/',
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         responseType: ResponseType.json,
@@ -18,7 +19,6 @@ class DioClient {
       ),
     );
 
-    // Logging interceptor
     dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -28,7 +28,6 @@ class DioClient {
       ),
     );
 
-    // Custom error handling interceptor (optional)
     dio.interceptors.add(
       InterceptorsWrapper(
         onError: (DioException e, handler) {

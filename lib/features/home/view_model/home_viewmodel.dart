@@ -1,42 +1,33 @@
-import 'dart:developer';
-
+import 'package:atmgo/core/response/api_response.dart';
 import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/data/repositories/location_repositories_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 
 class HomeViewModel extends ChangeNotifier {
   HomeViewModel(this._locationRepository);
   final LocationRepositoryImpl _locationRepository;
 
-  List<Location> _locations = [];
-  List<Location> get locations => _locations;
+  ApiResponse<List<Location>> locationsResponse = ApiResponse.loading();
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  bool _hasLoaded = false;
+  void _setLocationsResponse(ApiResponse<List<Location>> response) {
+    locationsResponse = response;
+    notifyListeners();
+  }
 
   Future<void> getLocationNearest() async {
-    if (_hasLoaded) return;
+    final position = await geo.Geolocator.getCurrentPosition();
 
-    _isLoading = true;
-    notifyListeners();
+    _setLocationsResponse(ApiResponse.loading());
+
     try {
-      _locations = await _locationRepository.getLocationNearest(
-        21.0227396,
-        105.8369637,
+      final locations = await _locationRepository.getLocationNearest(
+        position.latitude,
+        position.longitude,
       );
-      _errorMessage = null;
-      _hasLoaded = true;
+      _setLocationsResponse(ApiResponse.completed(locations));
     } catch (e) {
-      _errorMessage = 'Không thể tải danh sách ngân hàng';
-      log('$e');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLocationsResponse(ApiResponse.error('Không thể tải danh sách'));
     }
   }
 }

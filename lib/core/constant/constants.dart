@@ -1,13 +1,20 @@
-const iconNavigation = "assets/icons/navigation-icon.png";
-const iconAtm = "assets/icons/atm-logo.png";
+class AppConstants {
+  AppConstants._();
 
-const iconHome = "assets/icons/home-icon.png";
-const iconHomeActive = "assets/icons/home-icon-active.png";
-const iconSetting = "assets/icons/setting-icon.png";
-const iconSettingActive = "assets/icons/setting-icon-active.png";
-const iconMap = "assets/icons/map-icon-active.png";
-const iconMapActive = "assets/icon/map-icon-active.png";
+  static const String BASE_URL = 'http://192.168.1.18:8000';
+  static const String API_KEY = 'your_super_secret_api_key';
+  static const int API_TIMEOUT_SECONDS = 30;
 
-class AppColors {
-  AppColors._();
+  static const double PADDING_LARGE = 24.0;
+  static const double PADDING_MEDIUM = 16.0;
+  static const double BORDER_RADIUS_CIRCULAR = 100.0;
+  static const int ANIMATION_DURATION_MILLISECONDS = 500;
+
+  static const String IMAGE_LOGO = 'assets/images/logo.png';
+  static const String ICON_HOME = 'assets/icons/home_icon.svg';
+  static const String FONT_FAMILY_PRIMARY = 'Roboto';
+
+  static const int MAX_ITEM_COUNT = 100;
+  static const String DEFAULT_LANGUAGE_CODE = 'en';
+  static const String APP_NAME = 'My Awesome App';
 }

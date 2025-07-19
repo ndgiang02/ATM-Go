@@ -1,4 +1,5 @@
 import 'package:atmgo/features/home/home_screen.dart';
+import 'package:atmgo/features/listbank/listbank_screen.dart';
 import 'package:atmgo/features/main/main_screen.dart';
 import 'package:atmgo/features/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -12,13 +13,18 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
-      path: '/view_model',
-      name: 'view_model',
+      path: '/home',
+      name: 'home',
       builder: (context, state) => HomeScreen(),
     ),
     GoRoute(
-      path: '/viewmodel',
-      name: 'viewmodel',
+      path: '/list',
+      name: 'list',
+      builder: (context, state) => const ListScreen(),
+    ),
+    GoRoute(
+      path: '/main',
+      name: 'main',
       builder: (context, state) => MainScreen(),
     ),
   ],

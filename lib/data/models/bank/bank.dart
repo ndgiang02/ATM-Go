@@ -6,9 +6,10 @@ part 'bank.g.dart';
 @freezed
 abstract class Bank with _$Bank {
   const factory Bank({
-    required String id,
+    required int id,
     required String name,
-    required String logoUrl,
+    String? code,
+    String? logo_url,
     double? distance,
   }) = _Bank;
 

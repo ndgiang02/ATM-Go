@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:atmgo/core/constant/constants.dart';
+import 'package:atmgo/core/common/asset/app_assets.dart';
+import 'package:atmgo/core/common/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
     _rotation = Tween<double>(begin: 0, end: 1).animate(_controller);
 
     Timer(const Duration(milliseconds: 2500), () {
-      context.go('/viewmodel');
+      context.go('/main');
     });
   }
 
@@ -41,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: AppColors.primary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,9 +57,9 @@ class _SplashScreenState extends State<SplashScreen>
                 width: 70,
                 height: 70,
                 child: Image.asset(
-                  iconNavigation,
+                  AppAssets.iconNavigation,
                   fit: BoxFit.contain,
-                  color: Colors.blue,
+                  color: AppColors.primary,
                 ),
               ),
             ),

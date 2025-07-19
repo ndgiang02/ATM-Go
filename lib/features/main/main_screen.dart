@@ -1,4 +1,4 @@
-import 'package:atmgo/core/constant/constants.dart';
+import 'package:atmgo/core/common/asset/app_assets.dart';
 import 'package:atmgo/core/utils/responsive.dart';
 import 'package:atmgo/features/home/home_screen.dart';
 import 'package:atmgo/features/main/viewmodel/main_viewmodel.dart';
@@ -33,25 +33,31 @@ class MainScreen extends StatelessWidget {
             unselectedFontSize: Responsive.fontSize(12, context),
             items: [
               BottomNavigationBarItem(
-                icon: CustomIcon(iconPath: iconHome, isActive: false),
+                icon: CustomIcon(iconPath: AppAssets.iconHome, isActive: false),
                 activeIcon: CustomIcon(
-                  iconPath: iconHomeActive,
+                  iconPath: AppAssets.iconHomeActive,
                   isActive: true,
                 ),
-                label: "Home",
+                label: "Trang chủ",
               ),
               BottomNavigationBarItem(
-                icon: CustomIcon(iconPath: iconMap, isActive: false),
-                activeIcon: CustomIcon(iconPath: iconMapActive, isActive: true),
-                label: "Map",
-              ),
-              BottomNavigationBarItem(
-                icon: CustomIcon(iconPath: iconSetting, isActive: false),
+                icon: CustomIcon(iconPath: AppAssets.iconMap, isActive: false),
                 activeIcon: CustomIcon(
-                  iconPath: iconSettingActive,
+                  iconPath: AppAssets.iconMapActive,
                   isActive: true,
                 ),
-                label: "Setting",
+                label: "Bản đồ",
+              ),
+              BottomNavigationBarItem(
+                icon: CustomIcon(
+                  iconPath: AppAssets.iconSetting,
+                  isActive: false,
+                ),
+                activeIcon: CustomIcon(
+                  iconPath: AppAssets.iconSettingActive,
+                  isActive: true,
+                ),
+                label: "Thiết lập",
               ),
             ],
           ),
