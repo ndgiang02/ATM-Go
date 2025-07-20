@@ -7,8 +7,8 @@ import 'package:atmgo/data/models/bank/bank.dart';
 import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/data/repositories/bank_repositories_impl.dart';
 import 'package:atmgo/data/repositories/location_repositories_impl.dart';
+import 'package:atmgo/features/map/extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
@@ -21,8 +21,6 @@ class MapViewModel extends ChangeNotifier {
   MapboxMap? _mapboxMap;
   PointAnnotationManager? _annotationManager;
 
-  bool isTracking = false;
-
   ApiResponse<List<Bank>> banksResponse = ApiResponse.loading();
   ApiResponse<List<Location>> locationsResponse = ApiResponse.loading();
 
@@ -32,23 +30,10 @@ class MapViewModel extends ChangeNotifier {
   String selectedBank = 'all';
   String selectedServiceType = 'all';
 
-  void onBankSelected(String? value) {
-    if (value == null) return;
-    selectedBank = value;
-    notifyListeners();
-  }
+  final Map<String, Location> _markerLocationMap = {};
 
-  void onServiceTypeSelected(String? value) {
-    if (value == null) return;
-    selectedServiceType = value;
-    notifyListeners();
-  }
-
-  void resetFilters() {
-    selectedBank = 'all';
-    selectedServiceType = 'all';
-    notifyListeners();
-  }
+  Location? _selectedLocation;
+  Location? get selectedLocation => _selectedLocation;
 
   void _setBanksResponse(ApiResponse<List<Bank>> response) {
     banksResponse = response;
@@ -57,6 +42,31 @@ class MapViewModel extends ChangeNotifier {
 
   void _setLocationsResponse(ApiResponse<List<Location>> response) {
     locationsResponse = response;
+    notifyListeners();
+  }
+
+  void onBankSelected(String? value) {
+    if (value == null) return;
+    selectedBank = value;
+    if (selectedBank != 'all' && selectedServiceType != 'all') {
+      getLocationByBankType(selectedBank, selectedServiceType);
+    }
+    notifyListeners();
+  }
+
+  void onServiceTypeSelected(String? value) {
+    if (value == null) return;
+    selectedServiceType = value;
+    if (selectedBank != 'all' && selectedServiceType != 'all') {
+      getLocationByBankType(selectedBank, selectedServiceType);
+    }
+    notifyListeners();
+  }
+
+  void resetFilters() async {
+    selectedBank = 'all';
+    selectedServiceType = 'all';
+    await _annotationManager?.deleteAll();
     notifyListeners();
   }
 
@@ -127,14 +137,11 @@ class MapViewModel extends ChangeNotifier {
   }
 
   Future<void> addMarker({
-    required double lng,
-    required double lat,
+    required Location location,
     required String markerId,
-    required BuildContext context,
   }) async {
     try {
-      final imageBytes = await rootBundle.load('assets/icons/marker-icon.png');
-      final imageUint8List = imageBytes.buffer.asUint8List();
+      final imageUint8List = await createCustomMarker(location.logo!, 96);
       final mbxImage = MbxImage(width: 48, height: 48, data: imageUint8List);
 
       await _mapboxMap!.style.addStyleImage(
@@ -148,35 +155,28 @@ class MapViewModel extends ChangeNotifier {
       );
 
       final annotationOptions = PointAnnotationOptions(
-        geometry: Point(coordinates: Position(lng, lat)),
+        geometry: Point(
+          coordinates: Position(location.longitude!, location.latitude!),
+        ),
         iconImage: markerId,
         iconSize: 0.5,
       );
 
-      await _annotationManager!.create(annotationOptions);
+      final annotation = await _annotationManager!.create(annotationOptions);
+      _markerLocationMap[annotation.id] = location;
     } catch (e) {
-      log("Error: $e");
+      log("Error add Marker: $e");
     }
   }
 
-  Future<void> mapMarker({
-    required double lat,
-    required double lng,
-    String? title,
-    String? logoUrl,
-    BuildContext? context,
-  }) async {
-    if (logoUrl != null) {
-      await addMarker(
-        lat: lat,
-        lng: lng,
-        markerId: 'marker_${lat}_$lng',
-        context: context!,
-      );
-    }
+  Future<void> mapMarker(Location location) async {
+    await addMarker(
+      markerId: 'marker_${location.latitude}_${location.longitude}',
+      location: location,
+    );
   }
 
-  Future<void> fetchMarkersFromApi(BuildContext context) async {
+  Future<void> getLocationInit() async {
     _setLocationsResponse(ApiResponse.loading());
     try {
       final position = await geo.Geolocator.getCurrentPosition();
@@ -185,18 +185,12 @@ class MapViewModel extends ChangeNotifier {
         position.longitude,
       );
       _setLocationsResponse(ApiResponse.completed(locations));
+      await _annotationManager?.deleteAll();
 
       for (final marker in locations) {
-        await mapMarker(
-          lat: marker.latitude!,
-          lng: marker.longitude!,
-          title: marker.title,
-          logoUrl: marker.logo,
-          context: context,
-        );
+        await mapMarker(marker);
       }
     } catch (e) {
-      log("Failed to fetch markers: $e");
       _setLocationsResponse(ApiResponse.error('Không thể tải địa điểm'));
     }
   }
@@ -207,13 +201,27 @@ class MapViewModel extends ChangeNotifier {
       final banks = await _bankRepository.getAllBanks();
       _setBanksResponse(ApiResponse.completed(banks));
     } catch (e) {
-      log("Failed to load banks: $e");
+      log("$e");
       _setBanksResponse(ApiResponse.error('Không thể tải danh sách ngân hàng'));
     }
   }
 
-  void toggleTracking(bool value) {
-    isTracking = value;
-    notifyListeners();
+  Future<void> getLocationByBankType(String bankCode, String type) async {
+    _setLocationsResponse(ApiResponse.loading());
+
+    try {
+      final locations = await _locationRepository.getLocationByBankType(
+        bankCode,
+        type,
+      );
+      _setLocationsResponse(ApiResponse.completed(locations));
+      await _annotationManager?.deleteAll();
+
+      for (final marker in locations) {
+        await mapMarker(marker);
+      }
+    } catch (e) {
+      _setLocationsResponse(ApiResponse.error('Không thể tải danh sách'));
+    }
   }
 }

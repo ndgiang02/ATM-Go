@@ -188,12 +188,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         );
                                       }
                                     },
-                                    onDirection: () {
-                                      // TODO: Implement direction functionality
-                                    },
-                                    onShare: () {
-                                      // TODO: Implement share functionality
-                                    },
+                                    onDirection: () {},
+                                    onShare: () {},
                                   ),
                                 );
                               },

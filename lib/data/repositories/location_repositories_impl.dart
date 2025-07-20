@@ -7,4 +7,11 @@ class LocationRepositoryImpl {
   Future<List<Location>> getLocationNearest(double lat, double lng) async {
     return _apiService.getLocationNearest(lat, lng);
   }
+
+  Future<List<Location>> getLocationByBankType(
+    String bankCode,
+    String type,
+  ) async {
+    return _apiService.getLocationByBankType(bankCode, type);
+  }
 }

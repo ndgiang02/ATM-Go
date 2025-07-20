@@ -17,7 +17,6 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> getLocationNearest() async {
     final position = await geo.Geolocator.getCurrentPosition();
-
     _setLocationsResponse(ApiResponse.loading());
 
     try {

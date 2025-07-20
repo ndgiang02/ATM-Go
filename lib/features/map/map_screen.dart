@@ -2,11 +2,12 @@ import 'package:atmgo/core/common/widget/widget_loading.dart';
 import 'package:atmgo/core/response/status.dart';
 import 'package:atmgo/core/utils/ultils.dart';
 import 'package:atmgo/di/locator.dart';
-import 'package:atmgo/features/map/map/map_viewmodel.dart';
+import 'package:atmgo/features/map/map_viewmodel/map_viewmodel.dart';
+import 'package:atmgo/features/map/widget/bottomsheet_widget.dart';
 import 'package:atmgo/features/map/widget/dropdown_widget.dart';
 import 'package:atmgo/features/map/widget/item_widget.dart';
-import 'package:atmgo/features/map/widget/locaton_button.dart';
-import 'package:atmgo/features/map/widget/zoom_button.dart';
+import 'package:atmgo/features/map/widget/location_widget.dart';
+import 'package:atmgo/features/map/widget/zoom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class MapScreen extends StatelessWidget {
                     textureView: true,
                     onMapCreated: viewModel.setMap,
                     onMapLoadedListener: (_) {
-                      viewModel.fetchMarkersFromApi(context);
+                      viewModel.getLocationInit();
                       viewModel.getAllBanks();
                     },
                   ),
@@ -132,9 +133,9 @@ class MapScreen extends StatelessWidget {
                         ],
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
 
-                      if (viewModel.selectedBank != 'all' ||
+                      if (viewModel.selectedBank != 'all' &&
                           viewModel.selectedServiceType != 'all')
                         Align(
                           alignment: Alignment.centerRight,
@@ -169,6 +170,44 @@ class MapScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                if (viewModel.selectedLocation != null)
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder:
+                              (_) => LocationDetailSheet(
+                                detail: viewModel.selectedLocation!,
+                              ),
+                        ).whenComplete(() => viewModel.resetFilters());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(16),
+                          ),
+                          boxShadow: [
+                            BoxShadow(color: Colors.black26, blurRadius: 6),
+                          ],
+                        ),
+                        child: Text(
+                          viewModel.selectedLocation!.title!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           );

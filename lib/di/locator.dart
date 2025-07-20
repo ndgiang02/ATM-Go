@@ -3,7 +3,7 @@ import 'package:atmgo/data/repositories/location_repositories_impl.dart';
 import 'package:atmgo/features/home/view_model/home_viewmodel.dart';
 import 'package:atmgo/features/listbank/viewmodel/listbank_viewmodel.dart';
 import 'package:atmgo/features/main/viewmodel/main_viewmodel.dart';
-import 'package:atmgo/features/map/map/map_viewmodel.dart';
+import 'package:atmgo/features/map/map_viewmodel/map_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt locator = GetIt.instance;
