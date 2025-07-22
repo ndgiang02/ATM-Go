@@ -1,4 +1,5 @@
 import 'package:atmgo/core/response/api_response.dart';
+import 'package:atmgo/core/utils/ultils.dart';
 import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/data/repositories/location_repositories_impl.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> getLocationNearest() async {
+    await Utils.checkLocatorPermission();
+
     final position = await geo.Geolocator.getCurrentPosition();
     _setLocationsResponse(ApiResponse.loading());
 

@@ -4,13 +4,14 @@ import 'package:atmgo/features/home/home_screen.dart';
 import 'package:atmgo/features/main/viewmodel/main_viewmodel.dart';
 import 'package:atmgo/features/main/widget/icon.dart';
 import 'package:atmgo/features/map/map_screen.dart';
+import 'package:atmgo/features/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
 
-  final List<Widget> _pages = [HomeScreen(), MapScreen(), HomeScreen()];
+  final List<Widget> _pages = [HomeScreen(), MapScreen(), SettingsScreen()];
 
   @override
   Widget build(BuildContext context) {

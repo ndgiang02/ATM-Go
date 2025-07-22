@@ -1,6 +1,7 @@
 import 'package:atmgo/core/common/widget/widget_loading.dart';
 import 'package:atmgo/core/response/status.dart';
 import 'package:atmgo/core/utils/ultils.dart';
+import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/di/locator.dart';
 import 'package:atmgo/features/map/map_viewmodel/map_viewmodel.dart';
 import 'package:atmgo/features/map/widget/bottomsheet_widget.dart';
@@ -12,13 +13,60 @@ import 'package:flutter/material.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class MapScreen extends StatelessWidget {
+class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
+
+  @override
+  State<MapScreen> createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  late MapViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _showLocationDetailBottomSheet(Location location) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder:
+          (context) => DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.25,
+            minChildSize: 0.1,
+            maxChildSize: 0.3,
+            builder:
+                (_, controller) => Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: LocationDetailSheet(detail: location),
+                  ),
+                ),
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => locator<MapViewModel>(),
+      create: (_) {
+        final vm = locator<MapViewModel>();
+        locator<MapViewModel>();
+        vm.onMarkerTapped = (location) {
+          _showLocationDetailBottomSheet(location);
+        };
+        return vm;
+      },
       child: Consumer<MapViewModel>(
         builder: (context, viewModel, _) {
           return Scaffold(
@@ -170,44 +218,6 @@ class MapScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                if (viewModel.selectedLocation != null)
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder:
-                              (_) => LocationDetailSheet(
-                                detail: viewModel.selectedLocation!,
-                              ),
-                        ).whenComplete(() => viewModel.resetFilters());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(16),
-                          ),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black26, blurRadius: 6),
-                          ],
-                        ),
-                        child: Text(
-                          viewModel.selectedLocation!.title!,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
               ],
             ),
           );

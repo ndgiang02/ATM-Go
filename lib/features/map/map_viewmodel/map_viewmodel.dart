@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:atmgo/core/response/api_response.dart';
-import 'package:atmgo/core/utils/ultils.dart';
 import 'package:atmgo/data/models/bank/bank.dart';
 import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/data/repositories/bank_repositories_impl.dart';
 import 'package:atmgo/data/repositories/location_repositories_impl.dart';
 import 'package:atmgo/features/map/extension.dart';
+import 'package:atmgo/features/map/listener.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
@@ -34,6 +35,8 @@ class MapViewModel extends ChangeNotifier {
 
   Location? _selectedLocation;
   Location? get selectedLocation => _selectedLocation;
+
+  void Function(Location)? onMarkerTapped;
 
   void _setBanksResponse(ApiResponse<List<Bank>> response) {
     banksResponse = response;
@@ -97,6 +100,18 @@ class MapViewModel extends ChangeNotifier {
 
     _annotationManager =
         await _mapboxMap?.annotations.createPointAnnotationManager();
+
+    _annotationManager?.addOnPointAnnotationClickListener(
+      MarkerClickListener(
+        onClick: (annotation) {
+          final location = _markerLocationMap[annotation.id];
+          if (location != null) {
+            onMarkerTapped?.call(location);
+            notifyListeners();
+          }
+        },
+      ),
+    );
   }
 
   Future<void> zoomIn() async {
@@ -120,11 +135,6 @@ class MapViewModel extends ChangeNotifier {
   }
 
   Future<void> getCurrentLocation() async {
-    final hasPermission = await Utils.checkLocatorPermission();
-    if (!hasPermission) {
-      return;
-    }
-
     final position = await geo.Geolocator.getCurrentPosition();
     _mapboxMap?.setCamera(
       CameraOptions(
@@ -190,6 +200,9 @@ class MapViewModel extends ChangeNotifier {
       for (final marker in locations) {
         await mapMarker(marker);
       }
+
+      final camera = calculateCameraOptions();
+      _mapboxMap?.flyTo(camera, MapAnimationOptions(duration: 1000));
     } catch (e) {
       _setLocationsResponse(ApiResponse.error('Không thể tải địa điểm'));
     }
@@ -220,8 +233,59 @@ class MapViewModel extends ChangeNotifier {
       for (final marker in locations) {
         await mapMarker(marker);
       }
+
+      final camera = calculateCameraOptions();
+      _mapboxMap?.flyTo(camera, MapAnimationOptions(duration: 1000));
     } catch (e) {
       _setLocationsResponse(ApiResponse.error('Không thể tải danh sách'));
     }
+  }
+
+  CameraOptions calculateCameraOptions() {
+    final markers = _markerLocationMap.values.toList();
+
+    if (markers.isEmpty) {
+      return CameraOptions(
+        center: Point(coordinates: Position(18.423300, -33.918861)),
+        zoom: 5,
+        bearing: 0,
+        pitch: 0,
+      );
+    }
+
+    double minLat = markers.first.latitude!;
+    double maxLat = markers.first.latitude!;
+    double minLng = markers.first.longitude!;
+    double maxLng = markers.first.longitude!;
+
+    for (var m in markers) {
+      if (m.latitude! < minLat) minLat = m.latitude!;
+      if (m.latitude! > maxLat) maxLat = m.latitude!;
+      if (m.longitude! < minLng) minLng = m.longitude!;
+      if (m.longitude! > maxLng) maxLng = m.longitude!;
+    }
+
+    double centerLat = (minLat + maxLat) / 2;
+    double centerLng = (minLng + maxLng) / 2;
+
+    double latSpan = (maxLat - minLat).abs();
+    double lngSpan = (maxLng - minLng).abs();
+
+    latSpan = math.max(latSpan, 0.01);
+    lngSpan = math.max(lngSpan, 0.01);
+
+    double zoom =
+        (latSpan > lngSpan)
+            ? (6 - math.log(latSpan) / math.log(2))
+            : (6 - math.log(lngSpan) / math.log(2));
+
+    zoom = zoom.clamp(3.0, 15.0);
+
+    return CameraOptions(
+      center: Point(coordinates: Position(centerLng, centerLat)),
+      zoom: zoom,
+      bearing: 0,
+      pitch: 0,
+    );
   }
 }

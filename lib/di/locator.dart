@@ -4,6 +4,7 @@ import 'package:atmgo/features/home/view_model/home_viewmodel.dart';
 import 'package:atmgo/features/listbank/viewmodel/listbank_viewmodel.dart';
 import 'package:atmgo/features/main/viewmodel/main_viewmodel.dart';
 import 'package:atmgo/features/map/map_viewmodel/map_viewmodel.dart';
+import 'package:atmgo/features/setting/setting_viewmodel/setting_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt locator = GetIt.instance;
@@ -18,6 +19,8 @@ void setupLocator() {
   // locator.registerFactory(() => MainViewModel());
 
   locator.registerSingleton<MainViewModel>(MainViewModel());
+
+  locator.registerSingleton<SettingViewModel>(SettingViewModel());
 
   locator.registerFactory<HomeViewModel>(
     () => HomeViewModel(locator<LocationRepositoryImpl>()),
