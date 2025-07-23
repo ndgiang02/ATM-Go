@@ -14,5 +14,9 @@ class AppAssets {
   static const String iconMap = "assets/icons/map-icon.png";
   static const String iconMapActive = "assets/icons/map-icon-active.png";
 
-  static const String iconMarker = "assets/icons/maker-icon.png";
+  static const String iconSupport = "assets/icons/support-icon.png";
+  static const String iconInfo = "assets/icons/info-icon.png";
+  static const String iconLanguage = "assets/icons/language-icon.png";
+  static const String iconPolicy = "assets/icons/policy-icon.png";
+  static const String iconVote = "assets/icons/star-icon.png";
 }
