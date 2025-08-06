@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:atmgo/core/constant/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -25,118 +27,157 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.only(bottom: 2),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child:
-                    logoUrl != null
-                        ? Image.network(
-                          '${AppConstants.BASE_URL}$logoUrl',
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.contain,
-                          errorBuilder:
-                              (context, error, stackTrace) => const Icon(
-                                Icons.account_balance,
-                                size: 50,
-                                color: Colors.blue,
-                              ),
-                        )
-                        : const Icon(
-                          Icons.account_balance,
-                          size: 50,
-                          color: Colors.blue,
-                        ),
-              ),
-              const SizedBox(width: 8),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-
-                    Text(
-                      address,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 4),
-
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            status,
-                            style: const TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            distance,
-                            style: Theme.of(context).textTheme.bodySmall,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _LocationActionButton(
-                          icon: Icons.phone,
-                          label: 'Call',
-                          onTap: onCall,
-                        ),
-                        _LocationActionButton(
-                          icon: Icons.directions,
-                          label: 'Directions',
-                          isPrimary: true,
-                          onTap: onDirection,
-                        ),
-                        _LocationActionButton(
-                          icon: Icons.share,
-                          label: 'Share',
-                          onTap: onShare,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 2),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withOpacity(0.2)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
-        ],
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Logo với glass effect
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                        ),
+                        child:
+                            logoUrl != null
+                                ? Image.network(
+                                  '${AppConstants.BASE_URL}$logoUrl',
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.contain,
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          const Icon(
+                                            Icons.account_balance,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                )
+                                : const Icon(
+                                  Icons.account_balance,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+
+                        Text(
+                          address,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.white.withOpacity(0.9)),
+                        ),
+                        const SizedBox(height: 4),
+
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                status,
+                                style: TextStyle(
+                                  color: Colors.greenAccent.shade200,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                distance,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall?.copyWith(
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _LocationActionButton(
+                              icon: Icons.phone,
+                              label: 'Call',
+                              onTap: onCall,
+                            ),
+                            _LocationActionButton(
+                              icon: Icons.directions,
+                              label: 'Directions',
+                              isPrimary: true,
+                              onTap: onDirection,
+                            ),
+                            _LocationActionButton(
+                              icon: Icons.share,
+                              label: 'Share',
+                              onTap: onShare,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -157,38 +198,58 @@ class _LocationActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isPrimary ? Colors.white : Colors.blue;
-    final bgColor = isPrimary ? Colors.blue : Colors.white;
-    const borderColor = Colors.blue;
-
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderColor),
-          ),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, color: color, size: 16),
-                const SizedBox(width: 4),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                  ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              decoration: BoxDecoration(
+                color:
+                    isPrimary
+                        ? Colors.white.withOpacity(0.25)
+                        : Colors.white.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color:
+                      isPrimary
+                          ? Colors.white.withOpacity(0.4)
+                          : Colors.white.withOpacity(0.2),
                 ),
-              ],
+                boxShadow:
+                    isPrimary
+                        ? [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 1),
+                          ),
+                        ]
+                        : null,
+              ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, color: Colors.white, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

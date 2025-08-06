@@ -1,8 +1,13 @@
 import 'package:atmgo/data/models/location/location.dart';
+import 'package:atmgo/data/models/locationc/locationc.dart';
 import 'package:atmgo/data/remote/location_api_service.dart';
 
 class LocationRepositoryImpl {
   final LocationApiService _apiService = LocationApiService();
+
+  Future<LocationCount> getOverViews() async {
+    return _apiService.getOverViews();
+  }
 
   Future<List<Location>> getLocationNearest(double lat, double lng) async {
     return _apiService.getLocationNearest(lat, lng);

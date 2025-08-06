@@ -11,7 +11,7 @@ class DioClient {
   DioClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: '${AppConstants.BASE_URL}/api/',
+        baseUrl: AppConstants.BASE_URL,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         responseType: ResponseType.json,

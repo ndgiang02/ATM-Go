@@ -6,8 +6,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
     return MaterialApp.router(
       title: 'ATM Go',
       routerConfig: router,

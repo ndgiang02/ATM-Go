@@ -1,0 +1,104 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
+class OverviewWidget extends StatelessWidget {
+  const OverviewWidget({
+    super.key,
+    required this.totalBranches,
+    required this.totalATMs,
+    required this.totalCDMs,
+  });
+
+  final int totalBranches;
+  final int totalATMs;
+  final int totalCDMs;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.15),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: _buildItem(
+                  'Chi nhánh',
+                  totalBranches,
+                  Icons.account_balance,
+                  Colors.lightBlueAccent.shade200,
+                ),
+              ),
+              Expanded(
+                child: _buildItem(
+                  'ATM',
+                  totalATMs,
+                  Icons.atm,
+                  Colors.greenAccent.shade200,
+                ),
+              ),
+              Expanded(
+                child: _buildItem(
+                  'CDM',
+                  totalCDMs,
+                  Icons.account_balance_wallet_outlined,
+                  Colors.orangeAccent.shade200,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItem(String label, int count, IconData icon, Color color) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: color..withValues(alpha: 0.3)),
+          ),
+          child: Icon(icon, color: color, size: 20),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          count.toString(),
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.white.withValues(alpha: 0.9),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+}

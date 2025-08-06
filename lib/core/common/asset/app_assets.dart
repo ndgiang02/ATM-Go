@@ -19,4 +19,6 @@ class AppAssets {
   static const String iconLanguage = "assets/icons/language-icon.png";
   static const String iconPolicy = "assets/icons/policy-icon.png";
   static const String iconVote = "assets/icons/star-icon.png";
+
+  static const String background = "assets/images/background.png";
 }

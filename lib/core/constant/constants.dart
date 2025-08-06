@@ -1,7 +1,7 @@
 class AppConstants {
   AppConstants._();
 
-  static const String BASE_URL = 'http://192.168.1.18:8000';
+  static const String BASE_URL = 'http://192.168.1.5:8000';
   static const String API_KEY = 'your_super_secret_api_key';
   static const int API_TIMEOUT_SECONDS = 30;
 

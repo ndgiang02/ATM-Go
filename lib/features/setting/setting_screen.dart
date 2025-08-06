@@ -93,7 +93,8 @@ class SettingsScreen extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-            const SizedBox(height: 20),
+
+            /*   const SizedBox(height: 20),
 
             SettingWidget(
               child: ExpansionTile(
@@ -181,8 +182,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-
+            ),*/
             const SizedBox(height: 20),
 
             const Text(
