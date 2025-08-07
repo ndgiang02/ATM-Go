@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   static const double _heightTotalOverview = 48.0;
-  static const double _heightOverviewCard = 160.0;
+  static const double _heightOverviewCard = 140.0;
   static const double _stickyHeaderHeight = kToolbarHeight;
 
   @override
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blueGrey.shade900, Colors.blueGrey.shade700],
+                colors: [Colors.blue.shade500, Colors.blue.shade100],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -396,7 +396,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-/// Delegate fade + translate (dùng cho Tổng quan và Overview)
 class _FadeHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
@@ -433,7 +432,6 @@ class _FadeHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-/// Sticky header delegate (giữ 1 child cố định khi pinned)
 class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   _StickyHeaderDelegate({
     required this.minHeight,

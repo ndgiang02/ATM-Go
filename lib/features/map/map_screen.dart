@@ -22,24 +22,26 @@ class _MapScreenState extends State<MapScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.25,
-        minChildSize: 0.1,
-        maxChildSize: 0.3,
-        builder: (_, controller) => Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
+      builder:
+          (context) => DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.25,
+            minChildSize: 0.1,
+            maxChildSize: 0.3,
+            builder:
+                (_, controller) => Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: LocationDetailSheet(detail: location),
+                  ),
+                ),
           ),
-          child: SingleChildScrollView(
-            controller: controller,
-            child: LocationDetailSheet(detail: location),
-          ),
-        ),
-      ),
     );
   }
 
@@ -68,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
                       center: Point(coordinates: Position(105.8542, 21.0285)),
                       zoom: 13.0,
                     ),
-                    styleUri: MapboxStyles.STANDARD,
+                    styleUri: MapboxStyles.DARK,
                     textureView: true,
                     onMapCreated: viewModel.setMap,
                     onMapLoadedListener: (_) {

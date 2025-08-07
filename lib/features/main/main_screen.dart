@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:atmgo/core/common/asset/app_assets.dart';
+import 'package:atmgo/core/common/theme/app_color.dart';
 import 'package:atmgo/core/utils/responsive.dart';
 import 'package:atmgo/features/home/home_screen.dart';
 import 'package:atmgo/features/main/viewmodel/main_viewmodel.dart';
@@ -67,9 +68,21 @@ class MainScreen extends StatelessWidget {
                     type: BottomNavigationBarType.fixed,
                     selectedFontSize: Responsive.fontSize(14, context),
                     unselectedFontSize: Responsive.fontSize(12, context),
-                    selectedItemColor: Theme.of(context).primaryColor,
-                    unselectedItemColor: Colors.white70,
+                    selectedItemColor: AppColors.primary,
+                    unselectedItemColor: Colors.white,
                     showUnselectedLabels: true,
+                    selectedLabelStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                      fontSize: Responsive.fontSize(14, context),
+                      fontFamily: 'SFPro',
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.3,
+                      fontSize: Responsive.fontSize(12, context),
+                      fontFamily: 'SFPro',
+                    ),
                     items: [
                       BottomNavigationBarItem(
                         icon: CustomIcon(

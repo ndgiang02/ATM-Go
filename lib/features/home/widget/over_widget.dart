@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:atmgo/core/common/widget/glass_widget.dart';
 import 'package:flutter/material.dart';
 
 class OverviewWidget extends StatelessWidget {
@@ -16,54 +15,35 @@ class OverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.15),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+    return GlassContainer(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: _buildItem(
+              'Chi nhánh',
+              totalBranches,
+              Icons.account_balance,
+              Colors.lightBlueAccent.shade200,
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                child: _buildItem(
-                  'Chi nhánh',
-                  totalBranches,
-                  Icons.account_balance,
-                  Colors.lightBlueAccent.shade200,
-                ),
-              ),
-              Expanded(
-                child: _buildItem(
-                  'ATM',
-                  totalATMs,
-                  Icons.atm,
-                  Colors.greenAccent.shade200,
-                ),
-              ),
-              Expanded(
-                child: _buildItem(
-                  'CDM',
-                  totalCDMs,
-                  Icons.account_balance_wallet_outlined,
-                  Colors.orangeAccent.shade200,
-                ),
-              ),
-            ],
+          Expanded(
+            child: _buildItem(
+              'ATM',
+              totalATMs,
+              Icons.atm,
+              Colors.greenAccent.shade200,
+            ),
           ),
-        ),
+          Expanded(
+            child: _buildItem(
+              'CDM',
+              totalCDMs,
+              Icons.account_balance_wallet_outlined,
+              Colors.orangeAccent.shade200,
+            ),
+          ),
+        ],
       ),
     );
   }

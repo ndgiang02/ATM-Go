@@ -16,7 +16,7 @@ class CustomIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    bool isDarkMode = true;
     Color effectiveColor =
         color ??
         (isActive ? Colors.blue : (isDarkMode ? Colors.white : Colors.black));
