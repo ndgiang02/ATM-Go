@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdown<T> extends StatefulWidget {
-  final T? value;
-  final List<DropdownMenuItem<T>> items;
-  final ValueChanged<T?>? onChanged;
-  final String hint;
-  final Color? backgroundColor;
-  final Color? borderColor;
-  final double borderRadius;
-  final EdgeInsets padding;
-
   const CustomDropdown({
     Key? key,
     this.value,
@@ -21,6 +12,14 @@ class CustomDropdown<T> extends StatefulWidget {
     this.borderRadius = 12,
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
   }) : super(key: key);
+  final T? value;
+  final List<DropdownMenuItem<T>> items;
+  final ValueChanged<T?>? onChanged;
+  final String hint;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final double borderRadius;
+  final EdgeInsets padding;
 
   @override
   State<CustomDropdown<T>> createState() => _CustomDropdownState<T>();

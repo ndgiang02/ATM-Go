@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:atmgo/core/common/theme/app_color.dart';
 import 'package:atmgo/core/constant/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -39,20 +40,20 @@ Future<Uint8List> createCustomMarker(String url, double size) async {
 
   canvas.drawRRect(
     RRect.fromRectAndRadius(stickRect, Radius.circular(stickWidth / 2)),
-    Paint()..color = const Color(0xFF4285F4),
+    Paint()..color = AppColors.primary,
   );
 
   canvas.drawCircle(
     circleCenter,
     circleRadius,
-    Paint()..color = const Color(0xFF4285F4),
+    Paint()..color = AppColors.primary,
   );
 
   canvas.drawCircle(
     circleCenter,
     circleRadius,
     Paint()
-      ..color = Colors.white
+      ..color = AppColors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3,
   );

@@ -115,21 +115,29 @@ class MapViewModel extends ChangeNotifier {
   }
 
   Future<void> zoomIn() async {
-    if (_mapboxMap == null) return;
+    if (_mapboxMap == null) {
+      return;
+    }
 
     final camera = await _mapboxMap!.getCameraState();
     double newZoom = camera.zoom + 1;
-    if (newZoom > maxZoom) newZoom = maxZoom;
+    if (newZoom > maxZoom) {
+      newZoom = maxZoom;
+    }
 
     await _mapboxMap!.setCamera(CameraOptions(zoom: newZoom));
   }
 
   Future<void> zoomOut() async {
-    if (_mapboxMap == null) return;
+    if (_mapboxMap == null) {
+      return;
+    }
 
     final camera = await _mapboxMap!.getCameraState();
     double newZoom = camera.zoom - 1;
-    if (newZoom < minZoom) newZoom = minZoom;
+    if (newZoom < minZoom) {
+      newZoom = minZoom;
+    }
 
     await _mapboxMap!.setCamera(CameraOptions(zoom: newZoom));
   }

@@ -1,5 +1,6 @@
 import 'package:atmgo/core/common/asset/app_assets.dart';
 import 'package:atmgo/core/common/widget/glass_widget.dart';
+import 'package:atmgo/core/common/widget/gradient_widget.dart';
 import 'package:atmgo/di/locator.dart';
 import 'package:atmgo/features/setting/setting_viewmodel/setting_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -15,19 +16,7 @@ class SettingsScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.blueGrey.shade900.withAlpha(30),
-                  Colors.blueGrey.shade700,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-
+          const GradientWidget(),
           NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [

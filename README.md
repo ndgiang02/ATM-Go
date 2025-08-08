@@ -1,16 +1,30 @@
-# atmgo
+# ATM-Go
 
-A new Flutter project.
+ATM-Go is a mobile application that helps users quickly search and locate ATMs and bank branches in Vietnam.  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Search for ATMs and bank branches** by current location......
+- **Interactive map** with custom markers for each type of location.
+- **Filter results** by bank or location type (ATM, Branch, CDM).
+- **View detailed information** (address, bank name, working hours, etc.).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Technologies Used
+
+- **Flutter** (Dart).
+- **Architecture**: MVVM.
+- **Map**: Mapbox SDK.
+- **State Management**: Provider.
+- **HTTP Client**: Dio.
+- **Backend API**: 
+
+---
+
+## 📂 Project Structure
+
+
+To be Continued.............

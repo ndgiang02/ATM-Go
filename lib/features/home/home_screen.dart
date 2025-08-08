@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:atmgo/core/common/theme/app_color.dart';
+import 'package:atmgo/core/common/widget/gradient_widget.dart';
 import 'package:atmgo/core/common/widget/widget_loading.dart';
 import 'package:atmgo/core/response/status.dart';
 import 'package:atmgo/features/home/view_model/home_viewmodel.dart';
@@ -51,21 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue.shade500, Colors.blue.shade100],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-
+          const GradientWidget(),
           SafeArea(
             child: RefreshIndicator(
               onRefresh: () => _refreshData(context),
-              color: Colors.white,
-              backgroundColor: Colors.blueGrey.shade800,
+              color: AppColors.white,
+              backgroundColor: AppColors.secondary,
               child: CustomScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
@@ -185,9 +178,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              'Lỗi thống kê: ${viewModel.overResponse.message ?? ''}',
+                                              viewModel.overResponse.message ??
+                                                  '',
                                               style: const TextStyle(
-                                                color: Colors.redAccent,
+                                                color: AppColors.error,
                                               ),
                                               textAlign: TextAlign.center,
                                               overflow: TextOverflow.ellipsis,
@@ -206,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           maxHeight: 150,
                                         ),
                                         child: SingleChildScrollView(
-                                          // Thêm scroll nếu cần
                                           child: OverviewWidget(
                                             totalBranches: data.branch,
                                             totalATMs: data.atm,
@@ -289,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(12.0),
             child: Text(
               viewModel.locationsResponse.message ?? 'Lỗi tải dữ liệu',
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: AppColors.error),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
@@ -368,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 3),
           ),
