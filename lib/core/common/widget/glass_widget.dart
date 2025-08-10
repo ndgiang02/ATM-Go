@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class GlassContainer extends StatelessWidget {
   const GlassContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.borderRadius = 20,
+    this.borderRadius = 22,
     this.sigmaX = 12,
     this.sigmaY = 12,
-  }) : super(key: key);
+  });
   final Widget child;
   final EdgeInsetsGeometry padding;
   final double borderRadius;

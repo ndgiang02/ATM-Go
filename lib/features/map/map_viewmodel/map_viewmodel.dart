@@ -255,7 +255,7 @@ class MapViewModel extends ChangeNotifier {
     if (markers.isEmpty) {
       return CameraOptions(
         center: Point(coordinates: Position(18.423300, -33.918861)),
-        zoom: 5,
+        zoom: 10,
         bearing: 0,
         pitch: 0,
       );
@@ -284,8 +284,8 @@ class MapViewModel extends ChangeNotifier {
 
     double zoom =
         (latSpan > lngSpan)
-            ? (6 - math.log(latSpan) / math.log(2))
-            : (6 - math.log(lngSpan) / math.log(2));
+            ? (8 - math.log(latSpan) / math.log(2))
+            : (8 - math.log(lngSpan) / math.log(2));
 
     zoom = zoom.clamp(3.0, 15.0);
 

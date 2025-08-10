@@ -21,7 +21,7 @@ abstract class Location with _$Location {
     String? openHours,
     String? bankCode,
     String? logo,
-    double? reviewRating,
+    double? review_rating,
     double? distance,
   }) = _Location;
 

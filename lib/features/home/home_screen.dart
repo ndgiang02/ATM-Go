@@ -40,7 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final viewModel = context.read<HomeViewModel>();
     if (viewModel.overResponse.status == Status.LOADING) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) viewModel.getOverViews();
+        if (mounted) {
+          viewModel.getOverViews();
+        }
       });
     }
   }
@@ -318,8 +320,8 @@ class _HomeScreenState extends State<HomeScreen> {
             status: 'Open 24 Hours',
             distance: '${location.distance?.toStringAsFixed(2) ?? 'N/A'} Km',
             logoUrl: location.logo,
-            onCall: () => _handlePhoneCall(context, location.phone),
-            onDirection: () {},
+            onCall: () => _launchUrl('tel:${location.phone}'),
+            onDirection: () => _launchUrl(location.link!),
             onShare: () {},
           ),
         );
@@ -370,21 +372,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _handlePhoneCall(BuildContext context, String? phone) async {
-    if (phone == null || phone.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Số điện thoại không khả dụng')),
-      );
-      return;
-    }
-    final cleanPhone = phone.replaceAll(' ', '');
-    final Uri launchUri = Uri(scheme: 'tel', path: cleanPhone);
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Không thể gọi điện')));
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
   }
 }

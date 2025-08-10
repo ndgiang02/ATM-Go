@@ -1,3 +1,4 @@
+import 'package:atmgo/core/common/theme/app_color.dart';
 import 'package:atmgo/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,9 @@ class CustomIcon extends StatelessWidget {
     bool isDarkMode = true;
     Color effectiveColor =
         color ??
-        (isActive ? Colors.blue : (isDarkMode ? Colors.white : Colors.black));
+        (isActive
+            ? AppColors.tertiary
+            : (isDarkMode ? Colors.white : Colors.black));
 
     return SizedBox(
       width: size ?? Responsive.width(6, context),

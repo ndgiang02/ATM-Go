@@ -1,3 +1,4 @@
+import 'package:atmgo/core/common/asset/app_assets.dart';
 import 'package:atmgo/core/common/widget/glass_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class OverviewWidget extends StatelessWidget {
             child: _buildItem(
               'Chi nhánh',
               totalBranches,
-              Icons.account_balance,
+              AppAssets.iconBranch,
               Colors.lightBlueAccent.shade200,
             ),
           ),
@@ -31,7 +32,7 @@ class OverviewWidget extends StatelessWidget {
             child: _buildItem(
               'ATM',
               totalATMs,
-              Icons.atm,
+              AppAssets.iconATM,
               Colors.greenAccent.shade200,
             ),
           ),
@@ -39,7 +40,7 @@ class OverviewWidget extends StatelessWidget {
             child: _buildItem(
               'CDM',
               totalCDMs,
-              Icons.account_balance_wallet_outlined,
+              AppAssets.iconCDM,
               Colors.orangeAccent.shade200,
             ),
           ),
@@ -48,7 +49,7 @@ class OverviewWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(String label, int count, IconData icon, Color color) {
+  Widget _buildItem(String label, int count, String icon, Color color) {
     return Column(
       children: [
         Container(
@@ -58,7 +59,7 @@ class OverviewWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: color.withValues(alpha: 0.3)),
           ),
-          child: Icon(icon, color: color, size: 20),
+          child: Image.asset(icon, width: 20, height: 20, color: color),
         ),
         const SizedBox(height: 8),
         Text(

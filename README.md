@@ -28,3 +28,11 @@ ATM-Go is a mobile application that helps users quickly search and locate ATMs a
 
 
 To be Continued.............
+
+
+## 🎥 Demo
+
+<p align="center">
+  <img src="assets/gif/demo1.gif" alt="Home-Screen" width="45%" />
+  <img src="assets/gif/demo2.gif" alt="Map-Screen" width="45%" />
+</p>

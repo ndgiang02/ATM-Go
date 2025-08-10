@@ -22,4 +22,14 @@ class AppAssets {
   static const String iconThemes = "assets/icons/theme-icon.png";
 
   static const String background = "assets/images/background.png";
+
+  static const String iconWeb = "assets/icons/website-icon.png";
+  static const String iconRate = "assets/icons/rate-icon.png";
+  static const String iconPhone = "assets/icons/phone-icon.png";
+  static const String iconClock = "assets/icons/clock-icon.png";
+  static const String iconDirection = "assets/icons/direction-icon.png";
+
+  static const String iconBranch = "assets/icons/bank-icon.png";
+  static const String iconATM = "assets/icons/atm-icon.png";
+  static const String iconCDM = "assets/icons/bank-finance-loan-icon.png";
 }

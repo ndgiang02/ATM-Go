@@ -1,4 +1,3 @@
-// lib/features/main/view/main_screen.dart
 import 'dart:ui';
 
 import 'package:atmgo/core/common/asset/app_assets.dart';
@@ -15,7 +14,6 @@ import 'package:provider/provider.dart';
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
 
-  // Gắn PageStorageKey để giữ scroll position/state cho từng page
   final List<Widget> _pages = [
     HomeScreen(key: const PageStorageKey('page_home')),
     MapScreen(key: const PageStorageKey('page_map')),
@@ -68,7 +66,7 @@ class MainScreen extends StatelessWidget {
                     type: BottomNavigationBarType.fixed,
                     selectedFontSize: Responsive.fontSize(14, context),
                     unselectedFontSize: Responsive.fontSize(12, context),
-                    selectedItemColor: AppColors.primary,
+                    selectedItemColor: AppColors.white,
                     unselectedItemColor: Colors.white,
                     showUnselectedLabels: true,
                     selectedLabelStyle: TextStyle(

@@ -37,7 +37,6 @@ class LocationCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Logo với glass effect
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: BackdropFilter(
@@ -140,18 +139,18 @@ class LocationCard extends StatelessWidget {
                         children: [
                           _LocationActionButton(
                             icon: Icons.phone,
-                            label: 'Call',
+                            label: 'Gọi',
                             onTap: onCall,
                           ),
                           _LocationActionButton(
                             icon: Icons.directions,
-                            label: 'Directions',
+                            label: 'Dẫn đường',
                             isPrimary: true,
                             onTap: onDirection,
                           ),
                           _LocationActionButton(
                             icon: Icons.share,
-                            label: 'Share',
+                            label: 'Chia sẻ',
                             onTap: onShare,
                           ),
                         ],

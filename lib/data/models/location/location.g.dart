@@ -22,7 +22,7 @@ _Location _$LocationFromJson(Map<String, dynamic> json) => _Location(
   openHours: json['openHours'] as String?,
   bankCode: json['bankCode'] as String?,
   logo: json['logo'] as String?,
-  reviewRating: (json['reviewRating'] as num?)?.toDouble(),
+  review_rating: (json['review_rating'] as num?)?.toDouble(),
   distance: (json['distance'] as num?)?.toDouble(),
 );
 
@@ -42,6 +42,6 @@ Map<String, dynamic> _$LocationToJson(_Location instance) => <String, dynamic>{
   'openHours': instance.openHours,
   'bankCode': instance.bankCode,
   'logo': instance.logo,
-  'reviewRating': instance.reviewRating,
+  'review_rating': instance.review_rating,
   'distance': instance.distance,
 };

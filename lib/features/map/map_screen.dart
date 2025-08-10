@@ -1,3 +1,4 @@
+import 'package:atmgo/core/common/widget/glass_widget.dart';
 import 'package:atmgo/data/models/location/location.dart';
 import 'package:atmgo/di/locator.dart';
 import 'package:atmgo/features/map/map_viewmodel/map_viewmodel.dart';
@@ -42,7 +43,7 @@ class _MapScreenState extends State<MapScreen> {
                       center: Point(coordinates: Position(105.8542, 21.0285)),
                       zoom: 13.0,
                     ),
-                    styleUri: MapboxStyles.DARK,
+                    styleUri: MapboxStyles.STANDARD_EXPERIMENTAL,
                     textureView: true,
                     onMapCreated: viewModel.setMap,
                     onMapLoadedListener: (_) {
@@ -52,7 +53,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
 
-                // Bộ lọc dropdown
                 Positioned(
                   top: 60,
                   left: 16,
@@ -60,9 +60,8 @@ class _MapScreenState extends State<MapScreen> {
                   child: FilterBar(viewModel: viewModel),
                 ),
 
-                // Nút zoom và vị trí
                 Positioned(
-                  bottom: 100,
+                  bottom: 120,
                   right: 10,
                   child: Column(
                     children: [
@@ -87,26 +86,20 @@ class _MapScreenState extends State<MapScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       builder:
-          (context) => DraggableScrollableSheet(
-            expand: false,
-            initialChildSize: 0.25,
-            minChildSize: 0.1,
-            maxChildSize: 0.3,
-            builder:
-                (_, controller) => Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
-                  child: SingleChildScrollView(
+          (context) => GlassContainer(
+            child: DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: 0.25,
+              minChildSize: 0.1,
+              maxChildSize: 0.3,
+              builder:
+                  (_, controller) => SingleChildScrollView(
                     controller: controller,
                     child: LocationDetailSheet(detail: location),
                   ),
-                ),
+            ),
           ),
     );
   }

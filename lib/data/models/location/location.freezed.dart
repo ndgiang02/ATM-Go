@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Location {
 
- int get id; String? get link; String? get title; String? get category; String? get address; String? get website; String? get phone; double? get latitude; double? get longitude; String? get descriptions; String? get owner; String? get type; String? get openHours; String? get bankCode; String? get logo; double? get reviewRating; double? get distance;
+ int get id; String? get link; String? get title; String? get category; String? get address; String? get website; String? get phone; double? get latitude; double? get longitude; String? get descriptions; String? get owner; String? get type; String? get openHours; String? get bankCode; String? get logo; double? get review_rating; double? get distance;
 /// Create a copy of Location
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $LocationCopyWith<Location> get copyWith => _$LocationCopyWithImpl<Location>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Location&&(identical(other.id, id) || other.id == id)&&(identical(other.link, link) || other.link == link)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.address, address) || other.address == address)&&(identical(other.website, website) || other.website == website)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.descriptions, descriptions) || other.descriptions == descriptions)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.type, type) || other.type == type)&&(identical(other.openHours, openHours) || other.openHours == openHours)&&(identical(other.bankCode, bankCode) || other.bankCode == bankCode)&&(identical(other.logo, logo) || other.logo == logo)&&(identical(other.reviewRating, reviewRating) || other.reviewRating == reviewRating)&&(identical(other.distance, distance) || other.distance == distance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Location&&(identical(other.id, id) || other.id == id)&&(identical(other.link, link) || other.link == link)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.address, address) || other.address == address)&&(identical(other.website, website) || other.website == website)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.descriptions, descriptions) || other.descriptions == descriptions)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.type, type) || other.type == type)&&(identical(other.openHours, openHours) || other.openHours == openHours)&&(identical(other.bankCode, bankCode) || other.bankCode == bankCode)&&(identical(other.logo, logo) || other.logo == logo)&&(identical(other.review_rating, review_rating) || other.review_rating == review_rating)&&(identical(other.distance, distance) || other.distance == distance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,link,title,category,address,website,phone,latitude,longitude,descriptions,owner,type,openHours,bankCode,logo,reviewRating,distance);
+int get hashCode => Object.hash(runtimeType,id,link,title,category,address,website,phone,latitude,longitude,descriptions,owner,type,openHours,bankCode,logo,review_rating,distance);
 
 @override
 String toString() {
-  return 'Location(id: $id, link: $link, title: $title, category: $category, address: $address, website: $website, phone: $phone, latitude: $latitude, longitude: $longitude, descriptions: $descriptions, owner: $owner, type: $type, openHours: $openHours, bankCode: $bankCode, logo: $logo, reviewRating: $reviewRating, distance: $distance)';
+  return 'Location(id: $id, link: $link, title: $title, category: $category, address: $address, website: $website, phone: $phone, latitude: $latitude, longitude: $longitude, descriptions: $descriptions, owner: $owner, type: $type, openHours: $openHours, bankCode: $bankCode, logo: $logo, review_rating: $review_rating, distance: $distance)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $LocationCopyWith<$Res>  {
   factory $LocationCopyWith(Location value, $Res Function(Location) _then) = _$LocationCopyWithImpl;
 @useResult
 $Res call({
- int id, String? link, String? title, String? category, String? address, String? website, String? phone, double? latitude, double? longitude, String? descriptions, String? owner, String? type, String? openHours, String? bankCode, String? logo, double? reviewRating, double? distance
+ int id, String? link, String? title, String? category, String? address, String? website, String? phone, double? latitude, double? longitude, String? descriptions, String? owner, String? type, String? openHours, String? bankCode, String? logo, double? review_rating, double? distance
 });
 
 
@@ -66,7 +66,7 @@ class _$LocationCopyWithImpl<$Res>
 
 /// Create a copy of Location
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? link = freezed,Object? title = freezed,Object? category = freezed,Object? address = freezed,Object? website = freezed,Object? phone = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? descriptions = freezed,Object? owner = freezed,Object? type = freezed,Object? openHours = freezed,Object? bankCode = freezed,Object? logo = freezed,Object? reviewRating = freezed,Object? distance = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? link = freezed,Object? title = freezed,Object? category = freezed,Object? address = freezed,Object? website = freezed,Object? phone = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? descriptions = freezed,Object? owner = freezed,Object? type = freezed,Object? openHours = freezed,Object? bankCode = freezed,Object? logo = freezed,Object? review_rating = freezed,Object? distance = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,link: freezed == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
@@ -83,7 +83,7 @@ as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to
 as String?,openHours: freezed == openHours ? _self.openHours : openHours // ignore: cast_nullable_to_non_nullable
 as String?,bankCode: freezed == bankCode ? _self.bankCode : bankCode // ignore: cast_nullable_to_non_nullable
 as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
-as String?,reviewRating: freezed == reviewRating ? _self.reviewRating : reviewRating // ignore: cast_nullable_to_non_nullable
+as String?,review_rating: freezed == review_rating ? _self.review_rating : review_rating // ignore: cast_nullable_to_non_nullable
 as double?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
@@ -96,7 +96,7 @@ as double?,
 @JsonSerializable()
 
 class _Location implements Location {
-  const _Location({required this.id, this.link, this.title, this.category, this.address, this.website, this.phone, this.latitude, this.longitude, this.descriptions, this.owner, this.type, this.openHours, this.bankCode, this.logo, this.reviewRating, this.distance});
+  const _Location({required this.id, this.link, this.title, this.category, this.address, this.website, this.phone, this.latitude, this.longitude, this.descriptions, this.owner, this.type, this.openHours, this.bankCode, this.logo, this.review_rating, this.distance});
   factory _Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
 
 @override final  int id;
@@ -114,7 +114,7 @@ class _Location implements Location {
 @override final  String? openHours;
 @override final  String? bankCode;
 @override final  String? logo;
-@override final  double? reviewRating;
+@override final  double? review_rating;
 @override final  double? distance;
 
 /// Create a copy of Location
@@ -130,16 +130,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Location&&(identical(other.id, id) || other.id == id)&&(identical(other.link, link) || other.link == link)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.address, address) || other.address == address)&&(identical(other.website, website) || other.website == website)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.descriptions, descriptions) || other.descriptions == descriptions)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.type, type) || other.type == type)&&(identical(other.openHours, openHours) || other.openHours == openHours)&&(identical(other.bankCode, bankCode) || other.bankCode == bankCode)&&(identical(other.logo, logo) || other.logo == logo)&&(identical(other.reviewRating, reviewRating) || other.reviewRating == reviewRating)&&(identical(other.distance, distance) || other.distance == distance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Location&&(identical(other.id, id) || other.id == id)&&(identical(other.link, link) || other.link == link)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.address, address) || other.address == address)&&(identical(other.website, website) || other.website == website)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.latitude, latitude) || other.latitude == latitude)&&(identical(other.longitude, longitude) || other.longitude == longitude)&&(identical(other.descriptions, descriptions) || other.descriptions == descriptions)&&(identical(other.owner, owner) || other.owner == owner)&&(identical(other.type, type) || other.type == type)&&(identical(other.openHours, openHours) || other.openHours == openHours)&&(identical(other.bankCode, bankCode) || other.bankCode == bankCode)&&(identical(other.logo, logo) || other.logo == logo)&&(identical(other.review_rating, review_rating) || other.review_rating == review_rating)&&(identical(other.distance, distance) || other.distance == distance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,link,title,category,address,website,phone,latitude,longitude,descriptions,owner,type,openHours,bankCode,logo,reviewRating,distance);
+int get hashCode => Object.hash(runtimeType,id,link,title,category,address,website,phone,latitude,longitude,descriptions,owner,type,openHours,bankCode,logo,review_rating,distance);
 
 @override
 String toString() {
-  return 'Location(id: $id, link: $link, title: $title, category: $category, address: $address, website: $website, phone: $phone, latitude: $latitude, longitude: $longitude, descriptions: $descriptions, owner: $owner, type: $type, openHours: $openHours, bankCode: $bankCode, logo: $logo, reviewRating: $reviewRating, distance: $distance)';
+  return 'Location(id: $id, link: $link, title: $title, category: $category, address: $address, website: $website, phone: $phone, latitude: $latitude, longitude: $longitude, descriptions: $descriptions, owner: $owner, type: $type, openHours: $openHours, bankCode: $bankCode, logo: $logo, review_rating: $review_rating, distance: $distance)';
 }
 
 
@@ -150,7 +150,7 @@ abstract mixin class _$LocationCopyWith<$Res> implements $LocationCopyWith<$Res>
   factory _$LocationCopyWith(_Location value, $Res Function(_Location) _then) = __$LocationCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String? link, String? title, String? category, String? address, String? website, String? phone, double? latitude, double? longitude, String? descriptions, String? owner, String? type, String? openHours, String? bankCode, String? logo, double? reviewRating, double? distance
+ int id, String? link, String? title, String? category, String? address, String? website, String? phone, double? latitude, double? longitude, String? descriptions, String? owner, String? type, String? openHours, String? bankCode, String? logo, double? review_rating, double? distance
 });
 
 
@@ -167,7 +167,7 @@ class __$LocationCopyWithImpl<$Res>
 
 /// Create a copy of Location
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? link = freezed,Object? title = freezed,Object? category = freezed,Object? address = freezed,Object? website = freezed,Object? phone = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? descriptions = freezed,Object? owner = freezed,Object? type = freezed,Object? openHours = freezed,Object? bankCode = freezed,Object? logo = freezed,Object? reviewRating = freezed,Object? distance = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? link = freezed,Object? title = freezed,Object? category = freezed,Object? address = freezed,Object? website = freezed,Object? phone = freezed,Object? latitude = freezed,Object? longitude = freezed,Object? descriptions = freezed,Object? owner = freezed,Object? type = freezed,Object? openHours = freezed,Object? bankCode = freezed,Object? logo = freezed,Object? review_rating = freezed,Object? distance = freezed,}) {
   return _then(_Location(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,link: freezed == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
@@ -184,7 +184,7 @@ as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to
 as String?,openHours: freezed == openHours ? _self.openHours : openHours // ignore: cast_nullable_to_non_nullable
 as String?,bankCode: freezed == bankCode ? _self.bankCode : bankCode // ignore: cast_nullable_to_non_nullable
 as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
-as String?,reviewRating: freezed == reviewRating ? _self.reviewRating : reviewRating // ignore: cast_nullable_to_non_nullable
+as String?,review_rating: freezed == review_rating ? _self.review_rating : review_rating // ignore: cast_nullable_to_non_nullable
 as double?,distance: freezed == distance ? _self.distance : distance // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
